@@ -152,7 +152,7 @@ class Flow:
 
             # Show countdown timer for each pose
             for countdown in range(10, 0, -1):
-                print(f"Pose {pose_index} time remaining: {countdown} seconds", end="\r")
+                print(f"Pose {pose_index} time remaining: {countdown} seconds ", end="\r")
                 time.sleep(1)
             print("\n")
 

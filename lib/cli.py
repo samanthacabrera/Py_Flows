@@ -1,7 +1,4 @@
 # This file contains the main entry point (main menu) for the CLI application. It defines the command-line interface, including commands, options, arguments, and their corresponding actions or functions.
-# pipenv install && pipenv shell
-# python lib/db/seed.py
-# python lib/cli.py
 
 from db.models import Flow, Pose
 
@@ -10,7 +7,13 @@ DB_FILE = 'yoga.db'
 def main():
 
     while True:
-        print("\nWelcome to Py Flow:")
+        print(
+                '''\n Welcome to \n
+    __    ___            
+    |_)   |_ |  _       
+    |  \/ |  | (_) \/\/ 
+       /
+                    ''')
         print("1. Begin Practice")
         print("2. Manage Flows")
         print("3. Manage Poses")

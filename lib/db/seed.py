@@ -112,8 +112,44 @@ def insert_yoga_flows():
         cursor.executemany("INSERT INTO flows (chakra, duration, difficulty) VALUES (?, ?, ?)", yoga_flows)
         conn.commit()
 
+# def insert_flow_poses():
+#     flow_poses = [
+#         (1, 1), (1, 2), (1, 3),  # Flow 1 poses
+#         (2, 2), (2, 4), (2, 5),  # Flow 2 poses
+#     ]
+
+#     with sqlite3.connect(DB_FILE) as conn:
+#         cursor = conn.cursor()
+#         cursor.executemany("INSERT INTO flow_poses (flow_id, pose_id) VALUES (?, ?)", flow_poses)
+#         conn.commit()
+
+def insert_flow_poses():
+    with sqlite3.connect(DB_FILE) as conn:
+        cursor = conn.cursor()
+        
+        # Retrieve the IDs of the first two flows
+        cursor.execute("SELECT id FROM flows LIMIT 2")
+        flow_ids = [row[0] for row in cursor.fetchall()]
+        
+        # Retrieve the IDs of the first five poses
+        cursor.execute("SELECT id FROM poses LIMIT 5")
+        pose_ids = [row[0] for row in cursor.fetchall()]
+        
+        # Create mappings between flows and poses
+        flow_poses = [
+            (flow_ids[0], pose_ids[0]), (flow_ids[0], pose_ids[1]), (flow_ids[0], pose_ids[2]),  # Flow 1 poses
+            (flow_ids[1], pose_ids[1]), (flow_ids[1], pose_ids[3]), (flow_ids[1], pose_ids[4]),  # Flow 2 poses
+        ]
+        
+        # Insert the mappings into the flow_poses table
+        cursor.executemany("INSERT INTO flow_poses (flow_id, pose_id) VALUES (?, ?)", flow_poses)
+        conn.commit()
+
+
+
 if __name__ == "__main__":
         drop_tables()
         create_tables()
         insert_yoga_poses()
         insert_yoga_flows()
+        insert_flow_poses()
