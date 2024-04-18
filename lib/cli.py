@@ -1,5 +1,5 @@
 # This file contains the main entry point (main menu) for the CLI application. It defines the command-line interface, including commands, options, arguments, and their corresponding actions or functions.
-
+import time
 from colorama import init, Fore, Style
 init()
 
@@ -13,18 +13,18 @@ def main():
         print(
             '''
             \n * * * * * * * * * * * * * * * * *  
-            \n            Welcome to 
+            \n           Welcome to 
             '''
             + Fore.CYAN + Style.BRIGHT +
             '''
-        __    ___            
-        |_)   |_ |  _       
-        |  \/ |  | (_) \/\/ 
-           /
+     __    __     _          
+     |_)   |_ |  / \ \    /  
+     |  \/ |  |_ \_/  \/\/  
+        /
             '''
             + Style.RESET_ALL + 
             '''
-            \n        Made with <3 by Sam 
+            \n      Made with <3 by Sam 
             \n * * * * * * * * * * * * * * * * * 
             ''')
         print(Style.RESET_ALL)
@@ -80,7 +80,16 @@ def search_flows():
 def generate_flow(flow_id):
     flow = Flow.find_by_id(flow_id)
     if flow:
-        print("Generating your own unique yoga flow...")
+        print(Style.BRIGHT +
+    '''
+    * * * * * * * * * * * * * * * * * * * * * * * * 
+
+         Generating your unique yoga flow...
+
+    * * * * * * * * * * * * * * * * * * * * * * * *     
+
+    ''' + Style.RESET_ALL)  
+        time.sleep(2)
         Flow.generate_flow_with_timers(flow['chakra'], flow['duration'])
     else:
         print("Flow not found.")
@@ -163,9 +172,11 @@ def delete_yoga_flow_by_id():
 def list_all_yoga_flows():
     flows = Flow.get_all()
     if flows:
-        print("All Yoga Flows:")
+        
+        print(Style.BRIGHT +"\n id | chakra        | duration | difficulty \n"+ Style.RESET_ALL)
         for flow in flows:
-            print(flow)
+            print(f"{flow['id']:3} | {flow['chakra']:13} | {flow['duration']:8} | {flow['difficulty']}")
+        print("\n")
     else:
         print("No yoga flows found.")
 
@@ -216,11 +227,13 @@ def delete_yoga_pose_by_id():
 def list_all_yoga_poses():
     poses = Pose.get_all()
     if poses:
-        print("All Yoga Poses:")
+        print(Style.BRIGHT +"\n id | name                           | chakra        | difficulty \n"+ Style.RESET_ALL)
         for pose in poses:
-            print(pose)
+            print(f"{pose['id']:3} | {pose['name']:30} | {pose['chakra']:13} | {pose['difficulty']}")
+        print("\n")
     else:
         print("No yoga poses found.")
+
 
 if __name__ == "__main__":
     main()

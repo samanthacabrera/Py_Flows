@@ -58,6 +58,7 @@ class Pose:
     @classmethod
     def get_all(cls):
         with sqlite3.connect(DB_FILE) as conn:
+            conn.row_factory = sqlite3.Row  
             cursor = conn.cursor()
             cursor.execute("SELECT * FROM poses")
             return cursor.fetchall()
@@ -124,10 +125,11 @@ class Flow:
     @classmethod
     def get_all(cls):
         with sqlite3.connect(DB_FILE) as conn:
+            conn.row_factory = sqlite3.Row  # Access columns by name
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM flows")
+            cursor.execute("SELECT id, chakra, duration, difficulty FROM flows")
             return cursor.fetchall()
-    
+
     @classmethod
     def find_by_id(cls, flow_id):
         with sqlite3.connect(DB_FILE) as conn:
@@ -158,69 +160,49 @@ class Flow:
             cursor.execute("SELECT * FROM flows WHERE difficulty = ?", (difficulty,))
             return cursor.fetchall()
 
-    # Generate unique flow
+    @classmethod
+    def countdown_timer(cls, message, duration):
+        for remaining in range(duration, 0, -1):
+            print(f"{message}: {remaining}", end="\r")
+            time.sleep(1)
+        cls.clear_line()
+
+    @classmethod
+    def clear_line(cls):
+        print("\033[K", end="\r")
+
     @classmethod
     def generate_flow_with_timers(cls, chakra, duration_minutes):
-        # Convert duration from minutes to seconds
-        duration_seconds = duration_minutes * 60
+        # CHANGED FOR DEVELOPMENT
+        duration_seconds = duration_minutes # * 60
 
-        # Get poses that match the specified chakra
+        # Get all poses that match the specified chakra
         poses = Pose.get_all()
         matching_poses = [pose for pose in poses if pose[2] == chakra]
 
         if len(matching_poses) < 3:
-            raise ValueError("There are not enough poses matching the chakra")
+            raise ValueError("There are not enough poses matching the chakra.")
 
-        # Randomly select poses for the flow
-        selected_poses = random.sample(matching_poses, 3)
+        # Initial round of breath
+        print("Inhale\n")     
+        cls.countdown_timer("Remaining Time", 3)
+        print("\nExhale\n")
+        cls.countdown_timer("Remaining Time", 3)
 
-        # Initial 2 rounds of breath
-        print("Starting your yoga flow...\n")
-        for round_num in range(1, 3):
-            print(f"Round {round_num} of breath: Inhale")
-            time.sleep(1)
-            print("\n")
-            time.sleep(1)
-            print(f"Round {round_num} of breath: Exhale")
-            time.sleep(1)
-            print("\n")
-            time.sleep(1)
-        
         total_time = 0
-        
+
         # Iterate over selected poses
-        for pose_index, pose in enumerate(selected_poses, start=1):
-            print(f"Pose {pose_index}: {pose[1]}")
-            total_time += 10  # Pose duration is 10 seconds
-            time.sleep(1)
-            print("\n")
+        while total_time < duration_seconds:
+            if not matching_poses:
+                break  # If no poses left, exit loop
+            selected_pose = random.choice(matching_poses)
+            print(f"Pose: {selected_pose['name']}\n")
+            matching_poses.remove(selected_pose)  # Remove selected pose
+            cls.countdown_timer("Remaining Time", 3)
+            total_time += 4  # Pose duration is 3 seconds plus 1 second pause
+            time.sleep(1)  # Pause for 1 second between poses
 
-        # Add rounds of breaths
-        breath_rounds = total_time // 30
-        for i in range(breath_rounds):
-            print(f"Round {i+1} of breath: Inhale")
-            time.sleep(1)
-            print("\n")
-            time.sleep(1)
-            print(f"Round {i+1} of breath: Exhale")
-            time.sleep(1)
-            print("\n")
-            time.sleep(1)
-
-        # End every flow with Savasana
-        print("Savasana: A time to honor our bodies, minds, and spirits with well-deserved rest.\n")
-        time.sleep(2)
-        print("You have completed your practice!!\n")
-        time.sleep(2)
+        print("\nYou have completed your practice!!\n")
+        time.sleep(1)
         print("Namaste\n")
-
-
-
-    @classmethod
-    def generate_selected_flow(cls, flow_id):
-        flow = cls.find_by_id(flow_id)
-        if flow:
-            print("\n\nGenerating your own unique yoga flow...\n\n")            
-            cls.generate_flow_with_timers(flow['chakra'], flow['duration'])
-        else:
-            print("Flow not found.")
+        time.sleep(3)
