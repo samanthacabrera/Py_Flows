@@ -158,7 +158,7 @@ def update_yoga_pose_by_id():
 # FLOW METHODS 
 
 def create_yoga_flow():
-    chakra = input("Enter the chakra of the flow (Root, Sacral, Solar Plexus, Heart, Thoat, Third Eye, or Crown): ")
+    chakra = input("Enter the chakra of the flow (Root, Sacral, Solar Plexus, Heart, Throat, Third Eye, or Crown): ")
     duration = input("Enter the duration of the flow (10, 20, 30, 40, 50, or 60 minutes): ")
     difficulty = input("Enter the difficulty of the flow (Easy, Intermediate, or Advanced): ")
     Flow.create(chakra, duration, difficulty)
@@ -181,7 +181,7 @@ def list_all_yoga_flows():
         print("No yoga flows found.")
 
 def filter_by_chakra():
-    chakra = input("Enter the chakra to filter by (Root, Sacral, Solar Plexus, Heart, Thoat, Third Eye, or Crown): ")
+    chakra = input("Enter the chakra to filter by (Root, Sacral, Solar Plexus, Heart, Throat, Third Eye, or Crown): ")
     flows = Flow.filter_by_chakra(chakra)
     if flows:
         print(f"Yoga Flows with Chakra '{chakra}':")
@@ -214,7 +214,7 @@ def filter_by_difficulty():
 
 def create_yoga_pose():
     name = input("Enter the name of the pose: ")
-    chakra = input("Enter the chakra of the pose (Root, Sacral, Solar Plexus, Heart, Thoat, Third Eye, or Crown): ")
+    chakra = input("Enter the chakra of the pose (Root, Sacral, Solar Plexus, Heart, Throat, Third Eye, or Crown): ")
     difficulty = input("Enter the difficulty of the pose (Easy, Intermediate, Advanced): ")
     Pose.create(name, chakra, difficulty)
     print("Yoga pose added successfully!")

@@ -173,7 +173,7 @@ class Flow:
 
     @classmethod
     def generate_flow_with_timers(cls, chakra, duration_minutes):
-        # CHANGED FOR DEVELOPMENT
+        # CHANGED DURATION FOR TESTING
         duration_seconds = duration_minutes # * 60
 
         # Get all poses that match the specified chakra
