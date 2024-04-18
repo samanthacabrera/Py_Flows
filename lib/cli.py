@@ -113,8 +113,9 @@ def manage_poses():
         print(Style.BRIGHT + "\nManage Poses:\n" + Style.RESET_ALL)
         print("1. Display all poses")
         print("2. Create a new pose")
-        print("3. Delete a pose by ID")
-        print("4. Back to Main Menu\n")
+        print("3. Update a pose by ID")
+        print("4. Delete a pose by ID")
+        print("5. Back to Main Menu\n")
 
         pose_choice = input("Enter your choice: ")
 
@@ -123,11 +124,27 @@ def manage_poses():
         elif pose_choice == '2':
             create_yoga_pose()
         elif pose_choice == '3':
-            delete_yoga_pose_by_id()
+            update_yoga_pose_by_id()
         elif pose_choice == '4':
+            delete_yoga_pose_by_id()
+        elif pose_choice == '5':
             break
         else:
             print("Invalid choice. Please try again.")
+
+def update_yoga_pose_by_id():
+    pose_id = input("Enter the ID of the pose you want to update: ")
+    name = input("Enter the updated name of the pose: ")
+    chakra = input("Enter the updated chakra of the pose: ")
+    difficulty = input("Enter the updated difficulty of the pose: ")
+
+    # Check if any field is updated
+    if name or chakra or difficulty:
+        Pose.update(pose_id, name=name, chakra=chakra, difficulty=difficulty)
+        print("Yoga pose updated successfully!")
+    else:
+        print("No updates provided. Pose remains unchanged.")
+
 
 # FLOW METHODS 
 
