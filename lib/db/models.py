@@ -3,6 +3,8 @@
 import sqlite3
 import random
 import time
+from colorama import init, Fore, Style
+init()
 
 DB_FILE = 'yoga.db'
 
@@ -90,15 +92,6 @@ class Flow:
             cursor = conn.cursor()
             cursor.execute("DELETE FROM flows WHERE id = ?", (flow_id,))
             conn.commit()
-
-    @classmethod
-    def find_by_id(cls, flow_id):
-        with sqlite3.connect(DB_FILE) as conn:
-            conn.row_factory = sqlite3.Row 
-            cursor = conn.cursor()
-            cursor.execute("SELECT * FROM flows WHERE id = ?", (flow_id,))
-            return cursor.fetchone()
-
         
     @classmethod
     def get_all(cls):
@@ -106,7 +99,16 @@ class Flow:
             cursor = conn.cursor()
             cursor.execute("SELECT * FROM flows")
             return cursor.fetchall()
-
+    
+    @classmethod
+    def find_by_id(cls, flow_id):
+        with sqlite3.connect(DB_FILE) as conn:
+            conn.row_factory = sqlite3.Row 
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM flows WHERE id = ?", (flow_id,))
+            return cursor.fetchone()
+    
+    # Filter flow templates
     @classmethod
     def filter_by_chakra(cls, chakra):
         with sqlite3.connect(DB_FILE) as conn:
@@ -128,36 +130,43 @@ class Flow:
             cursor.execute("SELECT * FROM flows WHERE difficulty = ?", (difficulty,))
             return cursor.fetchall()
 
+    # Generate unique flow
     @classmethod
     def generate_flow_with_timers(cls, chakra, duration_minutes):
-        # Convert duration from minutes to seconds
-        duration_seconds = duration_minutes * 60
+      
+        duration_seconds = duration_minutes # COMMENTED OUT FOR DEVELOPMENT
 
-        # Get poses that match the specified chakra
+    # Get poses that match the specified chakra
         poses = Pose.get_all()
         matching_poses = [pose for pose in poses if pose[2] == chakra]
-
 
         if len(matching_poses) < 3:
             raise ValueError("There are not enough poses matching the chakra")
 
-        # Randomly select poses for the flow
+    # Randomly select poses for the flow
         selected_poses = random.sample(matching_poses, 3)
 
         total_time = 0
+        
+        print('.')
+        time.sleep(1)
+        print('.')
+        time.sleep(1)
+        print('.')
+        time.sleep(1)
         for pose_index, pose in enumerate(selected_poses, start=1):
             print(f"Pose {pose_index}: {pose[1]}")
 
             total_time += 10  # Pose duration is 10 seconds
 
-            # Show countdown timer for each pose
-            for countdown in range(10, 0, -1):
-                print(f"Pose {pose_index} time remaining: {countdown} seconds ", end="\r")
-                time.sleep(1)
-            print("\n")
+        # Show countdown timer for each pose
+        for countdown in range(10, 0, -1):
+            print(f"Pose {pose_index} time remaining: {countdown} seconds ", end="\r")
+            time.sleep(1)
+        print("\n")
 
-        # Add rounds of breaths
-        breath_rounds = total_time // 30  
+    # Add rounds of breaths
+        breath_rounds = total_time // 30
         for i in range(breath_rounds):
             print(f"Round {i+1} of breath: Inhale")
             time.sleep(5)
@@ -171,23 +180,12 @@ class Flow:
         time.sleep(1)
         print("Namaste")
 
-    @classmethod
-    def search_flows_menu(cls):
-        print("Select a flow:")
-        print("ID | Chakra | Duration | Difficulty")
-        flows = cls.get_all()
-        for flow in flows:
-            print(f"{flow['id']} | {flow['chakra']} | {flow['duration']} minutes | {flow['difficulty']}")
-        flow_id = input("Enter the ID of the flow you want to generate: ")
-        if flow_id.lower() == "take me home":
-            return
-        cls.generate_selected_flow(flow_id)
 
     @classmethod
     def generate_selected_flow(cls, flow_id):
         flow = cls.find_by_id(flow_id)
         if flow:
-            print("Generating your own unique yoga flow...")
+            print("\n\nGenerating your own unique yoga flow...\n\n")            
             cls.generate_flow_with_timers(flow['chakra'], flow['duration'])
         else:
             print("Flow not found.")

@@ -1,6 +1,7 @@
 # This file is used for populating the database with initial data. It contains scripts or functions that insert predefined data into the database tables.
 
 import sqlite3
+import random
 
 DB_FILE = 'yoga.db'
 
@@ -127,24 +128,33 @@ def insert_flow_poses():
     with sqlite3.connect(DB_FILE) as conn:
         cursor = conn.cursor()
         
-        # Retrieve the IDs of the first two flows
-        cursor.execute("SELECT id FROM flows LIMIT 2")
+        # Retrieve the IDs of all flows
+        cursor.execute("SELECT id FROM flows")
         flow_ids = [row[0] for row in cursor.fetchall()]
         
-        # Retrieve the IDs of the first five poses
-        cursor.execute("SELECT id FROM poses LIMIT 5")
+        # Retrieve the IDs of all poses
+        cursor.execute("SELECT id FROM poses")
         pose_ids = [row[0] for row in cursor.fetchall()]
         
-        # Create mappings between flows and poses
-        flow_poses = [
-            (flow_ids[0], pose_ids[0]), (flow_ids[0], pose_ids[1]), (flow_ids[0], pose_ids[2]),  # Flow 1 poses
-            (flow_ids[1], pose_ids[1]), (flow_ids[1], pose_ids[3]), (flow_ids[1], pose_ids[4]),  # Flow 2 poses
-        ]
+        # Create mappings between flows and poses for each flow
+        flow_poses = []
+        for flow_id in flow_ids:
+            # Retrieve the poses that match the chakra of the current flow
+            cursor.execute("SELECT pose_id FROM flow_poses WHERE flow_id = ?", (flow_id,))
+            poses_in_flow = [row[0] for row in cursor.fetchall()]
+            
+            # Ensure that each chakra flow has a unique set of poses
+            available_poses = [pose_id for pose_id in pose_ids if pose_id not in poses_in_flow]
+            
+            # Randomly select poses for the flow
+            selected_poses = random.sample(available_poses, 5)  # Adjust the number of poses as needed
+            
+            # Create mappings between the current flow and the selected poses
+            flow_poses.extend([(flow_id, pose_id) for pose_id in selected_poses])
         
         # Insert the mappings into the flow_poses table
         cursor.executemany("INSERT INTO flow_poses (flow_id, pose_id) VALUES (?, ?)", flow_poses)
         conn.commit()
-
 
 
 if __name__ == "__main__":
