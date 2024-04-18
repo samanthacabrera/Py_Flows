@@ -146,7 +146,7 @@ class Flow:
 
         total_time = 0
         for pose_index, pose in enumerate(selected_poses, start=1):
-            print(f"Starting pose {pose_index}: {pose[1]}")
+            print(f"Pose {pose_index}: {pose[1]}")
 
             total_time += 10  # Pose duration is 10 seconds
 

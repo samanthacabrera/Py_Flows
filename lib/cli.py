@@ -1,5 +1,8 @@
 # This file contains the main entry point (main menu) for the CLI application. It defines the command-line interface, including commands, options, arguments, and their corresponding actions or functions.
 
+from colorama import init, Fore, Style
+init()
+
 from db.models import Flow, Pose
 
 DB_FILE = 'yoga.db'
@@ -8,17 +11,28 @@ def main():
 
     while True:
         print(
-                '''\n Welcome to \n
-    __    ___            
-    |_)   |_ |  _       
-    |  \/ |  | (_) \/\/ 
-       /
-                    ''')
+            '''
+            \n * * * * * * * * * * * * * * * * *  
+            \n            Welcome to 
+            '''
+            + Fore.CYAN + Style.BRIGHT +
+            '''
+        __    ___            
+        |_)   |_ |  _       
+        |  \/ |  | (_) \/\/ 
+           /
+            '''
+            + Style.RESET_ALL + 
+            '''
+            \n        Made with <3 by Sam 
+            \n * * * * * * * * * * * * * * * * * 
+            ''')
+        print(Style.RESET_ALL)
         print("1. Begin Practice")
         print("2. Manage Flows")
         print("3. Manage Poses")
-        print("4. Exit")
-
+        print("4. Exit \n")
+        
         choice = input("Enter your choice: ")
 
         if choice == '1':
@@ -28,20 +42,22 @@ def main():
         elif choice == '3':
             manage_poses()
         elif choice == '4':
-            print("Exiting. Goodbye!")
+            print(Style.BRIGHT + "\nExiting... Goodbye!\n"+ Style.RESET_ALL)
             break
         else:
             print("Invalid choice. Please try again.")
 
 def search_flows():
     while True:
-        print("\nSearch Flow Template Options:")
+        print('-' * 40)
+        print(Style.BRIGHT + "\nSearch Flow Templates:\n" + Style.RESET_ALL)
         print("1. Display all templates")
         print("2. Filter templates by chakra")
         print("3. Filter templates by duration")
         print("4. Filter templates by difficulty")
-        print("5. Back to Main Menu")
-
+        print("5. Back to Main Menu\n")
+        
+    
         search_choice = input("Enter your choice: ")
 
         if search_choice == '1':
@@ -71,29 +87,34 @@ def generate_flow(flow_id):
 
 def manage_flows():
     while True:
-        print("\nManage Flows Options:")
-        print("1. Create a new flow template")
-        print("2. Delete a flow template by ID")
-        print("3. Back to Main Menu")
+        print('-' * 40)
+        print(Style.BRIGHT + "\nManage Flows:\n" + Style.RESET_ALL)
+        print("1. Display all flow templates")
+        print("2. Create a new flow template")
+        print("3. Delete a flow template by ID")
+        print("4. Back to Main Menu\n")
 
         manage_choice = input("Enter your choice: ")
 
         if manage_choice == '1':
-            create_yoga_flow()
+            list_all_yoga_flows()
         elif manage_choice == '2':
-            delete_yoga_flow_by_id()
+            create_yoga_flow()
         elif manage_choice == '3':
-            break
+            delete_yoga_flow_by_id()
+        elif manage_choice == '4':
+            break  
         else:
             print("Invalid choice. Please try again.")
 
 def manage_poses():
     while True:
-        print("\nManage Poses Options:")
+        print('-' * 40)
+        print(Style.BRIGHT + "\nManage Poses:\n" + Style.RESET_ALL)
         print("1. Display all poses")
         print("2. Create a new pose")
         print("3. Delete a pose by ID")
-        print("4. Back to Main Menu")
+        print("4. Back to Main Menu\n")
 
         pose_choice = input("Enter your choice: ")
 
