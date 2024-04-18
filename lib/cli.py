@@ -13,18 +13,18 @@ def main():
         print(
             '''
             \n * * * * * * * * * * * * * * * * *  
-            \n           Welcome to 
+            \n            Welcome to 
             '''
             + Fore.CYAN + Style.BRIGHT +
             '''
-     __    __     _          
-     |_)   |_ |  / \ \    /  
-     |  \/ |  |_ \_/  \/\/  
+     __    __     _         __ 
+     |_)   |_ |  / \ \    /|__ 
+     |  \/ |  |_ \_/  \/\/  __|
         /
             '''
             + Style.RESET_ALL + 
             '''
-            \n      Made with <3 by Sam 
+            \n        Made with <3 by Sam 
             \n * * * * * * * * * * * * * * * * * 
             ''')
         print(Style.RESET_ALL)

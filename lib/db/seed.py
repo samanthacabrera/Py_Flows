@@ -1,4 +1,5 @@
-# This file is used for populating the database with initial data. It contains scripts or functions that insert predefined data into the database tables.
+# This file is used for populating the database with initial data.
+# It contains scripts or functions that insert predefined data into the database tables.
 
 import sqlite3
 import random
@@ -81,7 +82,7 @@ def insert_yoga_poses():
     ("Half Lord of the Fishes Pose", "Throat", "Intermediate"),
     ("Bridge Pose", "Third Eye", "Intermediate"),
     ("Four Limbed Staff", "Crown", "Intermediate"),
-    ("Standing Two-Legged Forward Bend", "Root", "Intermediate"),
+    ("Standing Forward Bend", "Root", "Intermediate"),
     ("Pigeon Pose Head Down", "Sacral", "Intermediate"),
     ("Lotus Pose", "Solar Plexus", "Advanced"),
     ("Warrior III", "Heart", "Intermediate"),
@@ -90,7 +91,6 @@ def insert_yoga_poses():
     ("Shoulder Stand", "Crown", "Intermediate"),
     ("Butterfly Pose", "Root", "Easy")
 ]
-
 
     with sqlite3.connect(DB_FILE) as conn:
         cursor = conn.cursor()
@@ -112,17 +112,6 @@ def insert_yoga_flows():
         cursor = conn.cursor()
         cursor.executemany("INSERT INTO flows (chakra, duration, difficulty) VALUES (?, ?, ?)", yoga_flows)
         conn.commit()
-
-# def insert_flow_poses():
-#     flow_poses = [
-#         (1, 1), (1, 2), (1, 3),  # Flow 1 poses
-#         (2, 2), (2, 4), (2, 5),  # Flow 2 poses
-#     ]
-
-#     with sqlite3.connect(DB_FILE) as conn:
-#         cursor = conn.cursor()
-#         cursor.executemany("INSERT INTO flow_poses (flow_id, pose_id) VALUES (?, ?)", flow_poses)
-#         conn.commit()
 
 def insert_flow_poses():
     with sqlite3.connect(DB_FILE) as conn:

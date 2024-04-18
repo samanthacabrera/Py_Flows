@@ -179,7 +179,7 @@ class Flow:
         # Get all poses that match the specified chakra
         poses = Pose.get_all()
         matching_poses = [pose for pose in poses if pose[2] == chakra]
-
+        # Makes sure there are enough matching poses
         if len(matching_poses) < 3:
             raise ValueError("There are not enough poses matching the chakra.")
 
