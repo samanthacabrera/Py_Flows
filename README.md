@@ -64,6 +64,23 @@ To a manage yoga poses, follow these steps:
 2. Select the option: 'Manage poses'.
 3. Choose from options such as adding a new pose, deleting a pose, or viewing all poses.
 
+# Useful Info
+
+Chakras are spinning disks of energy that should stay “open” and aligned, as they correspond to bundles of nerves, major organs, and areas of our energetic body that affect our emotional and physical well-being.
+
+The root chakra located at the base of the spine. Its responsible for physical identity, stability, grounding. When blocked, it can lead to feelings of insecurity, fear, and instability.
+
+The sacral chakra located just below the belly button represents sexuality, pleasure, and creativity. A blockage may result in lack of creativity or difficulties in forming intimate relationships.
+
+The solar plexus chakra located in the upper abdomen represents self-esteem and confidence. Blockages may manifest as low self-esteem, lack of motivation.
+The heart chakra located in the center of the chest represents love and compassion. When blocked, it can lead to difficulty in forming emotional connections or feelings of isolation.
+
+The throat chakra located at the throat represents communication. Blockages may result in difficulty expressing oneself, fear of speaking freely one’s truth.
+
+The third eye chakra located between the eyes represents intuition and imagination. Blockages may lead to difficulties in decision-making, lack of clarity, or feeling disconnected from one's intuition.
+
+The crown chakra located at the very top of head represents awareness and intelligence. When blocked, it can lead to feelings of disconnection from the divine, spiritual cynicism, or lack of purpose.
+
 # License
 
 This project is licensed under the MIT License.
